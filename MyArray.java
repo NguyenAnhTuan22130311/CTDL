@@ -1,5 +1,3 @@
-package arrayProject;
-
 import java.util.Arrays;
 
 public class MyArray {
