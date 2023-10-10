@@ -1,3 +1,5 @@
+package AlgorithmsProject;
+
 import java.util.Arrays;
 
 public class MyArray {
@@ -7,95 +9,69 @@ public class MyArray {
 		this.array = array;
 	}
 
-	public int[] mirror() {
-		int[] mirrorArray = new int[array.length * 2];
+	public int iterativeLinearSearch(int target) {
 		for (int i = 0; i < array.length; i++) {
-			mirrorArray[i] = array[i];
-			mirrorArray[mirrorArray.length - 1 - i] = array[i];
+			if (array[i] == target) {
+				return i;
+			}
 		}
-		return mirrorArray;
+		return -1;
 	}
 
-	public int[] removeDuplicates() {
-		// Sắp xếp mảng theo thứ tự tăng dần
+	public int recursiveLinearSearch(int target) {
+		return recursiveLinearSearch(target, 0);
+	}
+
+	public int recursiveLinearSearch(int target, int index) {
+		if (index >= array.length) {
+			return -1;
+		}
+		if (array[index] == target) {
+			return index;
+		}
+
+		return recursiveLinearSearch(target, index + 1);
+	}
+
+	public int iterativeBinarySearch(int target) {
+		int start = 0;
+		int end = array.length - 1;
+		while (start <= end) {
+			int mid = start + (end - start) / 2;
+			if (array[mid] == target) {
+				return mid; // Tìm thấy vị trí
+			} else if (array[mid] < target) {
+				start = mid + 1; // Bỏ qua nửa trái
+			} else {
+				end = mid - 1; // Bỏ qua nửa phải
+			}
+		}
+		return -1; // Không thấy giá trị
+	}
+	
+	public int recursiveBinarySearch(int target) {
+		return recursiveBinarySearch(target, 0, array.length -1);
+	}
+	
+	public int recursiveBinarySearch(int target, int start, int end) {
+		if(start > end) {
+			return -1;
+		} 
 		Arrays.sort(array);
-
-		int[] temp = new int[array.length];
-		int j = 0;
-
-		// Duyệt mảng
-		for (int i = 0; i < array.length - 1; i++) {
-			if (array[i] != array[i + 1]) {
-				temp[j++] = array[i];
-			}
+		int mid = start + (end - start)/2;
+		if(array[mid] == target) {
+			return mid; //Tìm được vị trí
+		} else if(array[mid] < target) {
+			return recursiveBinarySearch(target, mid + 1, end); // Bỏ qua nửa trái
+		} else {
+			return recursiveBinarySearch(target, start, mid - 1); // Bỏ qua nửa phải
 		}
-		temp[j++] = array[array.length - 1];
-		return Arrays.copyOf(temp, j);
 	}
-
-	public int[] getMissingValues() {
-		// Tìm giá trị lớn =, nhỏ nhất
-		int min = array[0];
-		int max = array[0];
-		for (int i = 0; i < array.length; i++) {
-			if (array[i] < min)
-				min = array[i];
-			if (array[i] > max)
-				max = array[i];
-		}
-
-		int[] missingValues = new int[max - min + 1 - array.length];
-		int index = 0;
-
-		for (int i = min; i <= max; i++) {
-			boolean found = false;
-			for (int j = 0; j < array.length; j++) {
-				if (array[j] == i) {
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				missingValues[index++] = i;
-			}
-		}
-		return missingValues;
-	}
-
-	public int[] fillMissingValues(int k) {
-		int n = array.length;
-
-		for (int i = 0; i < n - 1; i++) {
-			if (array[0] == -1) {
-				array[0] = (array[i + 1] + array[i + 2] + array[i + 3]) / k;
-			}
-			if (array[n - 1] == -1) {
-				array[n - 1] = (array[n - 1] + array[n - 2] + array[n - 3]) / k;
-			} else if (array[i] == -1) {
-				if (array[i - 1] + array[i - 2] + array[i + 1] > array[i + 1] + array[i + 2] + array[i - 1]) {
-					array[i] = (array[i + 1] + array[i + 2] + array[i - 1]) / k;
-				} else {
-					array[i] = (array[i - 1] + array[i - 2] + array[i + 1]) / k;
-				}
-
-			}
-		}
-
-		return array;
-	}
-
 	public static void main(String[] args) {
-		MyArray myArray1 = new MyArray(new int[] { 1, 2, 3 });
-		MyArray myArray2 = new MyArray(new int[] { 1, 3, 5, 1, 3, 7, 9, 8 });
-		MyArray myArray3 = new MyArray(new int[] { 10, 11, 12, 13, 14, 16, 17, 19, 20 });
-		MyArray myArray4 = new MyArray(new int[] { 10, 11, 12, -1, 14, 10, 17, 19, 20 });
-		int[] mirrorArray = myArray1.mirror();
-		int[] removeDuplicates = myArray2.removeDuplicates();
-		int[] getMissingValues = myArray3.getMissingValues();
-		int[] fillMissingValues = myArray4.fillMissingValues(3);
-		System.out.println(Arrays.toString(mirrorArray));
-		System.out.println(Arrays.toString(removeDuplicates));
-		System.out.println(Arrays.toString(getMissingValues));
-		System.out.println(Arrays.toString(fillMissingValues));
+		MyArray m1 = new MyArray(new int[] { 12, 10, 9, 45, 2, 10, 10, 45 });
+		System.out.println(m1.iterativeLinearSearch(45));
+		System.out.println(m1.recursiveLinearSearch(15));
+		System.out.println(m1.iterativeBinarySearch(10));
+		System.out.println(m1.recursiveBinarySearch(11));
 	}
-}
+	}
