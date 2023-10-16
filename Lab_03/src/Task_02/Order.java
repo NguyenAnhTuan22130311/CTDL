@@ -60,22 +60,20 @@ public class Order {
 	}
 
 	public void sortByPrice() {
-		Arrays.sort(items, new Comparator<OderItem>() {
-
-			@Override
-			public int compare(OderItem it1, OderItem it2) {
-				double price1 = it1.getProduct().getPrice();
-				double price2 = it2.getProduct().getPrice();
-
-				if (price1 < price2) {
-					return -1;
-				} else if (price1 > price2) {
-					return 1;
-				} else {
-					return 0;
-				}
-			}
-		});
+	  for (int i = 0; i < items.length - 1; i++) {
+	    boolean swapped = false;
+	    for (int j = 0; j < items.length - i - 1; j++) {
+	      if (items[j].getProduct().getPrice() < items[j + 1].getProduct().getPrice()) {
+	        OderItem temp = items[j];
+	        items[j] = items[j + 1];
+	        items[j + 1] = temp;
+	        swapped = true;
+	      }
+	    }
+	    if (!swapped) {
+	      break;
+	    }
+	  }
 	}
 
 	public Product[] filter(String type) {
