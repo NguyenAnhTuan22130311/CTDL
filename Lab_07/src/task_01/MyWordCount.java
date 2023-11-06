@@ -17,8 +17,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class MyWordCount {
-	// public static final String fileName = "data/hamlet.txt";
-	public static final String fileName = "Data/fit";
+	public static final String fileName = "data/hamlet.txt";
+	// public static final String fileName = "Data/fit";
 
 	private List<String> words = new ArrayList<>();
 
